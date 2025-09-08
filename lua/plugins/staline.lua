@@ -10,7 +10,16 @@ return {
       sections = {
         left = { " ", "mode", " ", "branch" },
         mid = { "lsp" },
-        right = { "file_name", "line_column" },
+        right = {
+          function()
+            local filename = vim.fn.expand("%:t")
+            if filename == "" then
+              filename = "[No Name]"
+            end
+            return "%#StalineFile#" .. filename .. "%*"
+          end,
+          "line_column",
+        },
       },
       mode_colors = {
         i = "#d4be98",
@@ -22,6 +31,7 @@ return {
         true_colors = true,
         line_column = " [%l/%L] :%c  ",
         branch_symbol = " ",
+        file_name = "%t", -- Show only filename without icon
       },
     })
     vim.cmd([[ hi Evil guifg=#f36365 guibg=NONE ]])
